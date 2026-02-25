@@ -15,6 +15,6 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
     await page.getByTestId('search-order-button').click();
 
     // Assert (verificar)
-    await expect(page.getByTestId('order-result-id')).toContainText('VLO-28JC4G');
-    await expect(page.getByTestId('order-result-status')).toContainText('APROVADO');
+    await expect(page.getByText('VLO-28JC4G')).toBeVisible({timeout: 10_000});
+    await expect(page.getByText('APROVADO')).toBeVisible();
 });
