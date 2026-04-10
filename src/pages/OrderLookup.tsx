@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Search, Package, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Search, Package, CheckCircle, XCircle, Clock, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import { formatPrice, Order, ExteriorColor, WheelType } from '@/store/configuratorStore';
 import { getOrderByNumber } from '@/hooks/useOrders';
 import Header from '@/components/landing/Header';
@@ -145,20 +147,24 @@ const OrderLookup = () => {
                     </p>
                   </div>
                 </div>
-                <div
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
-                    searchedOrder.status === 'APROVADO'
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-red-100 text-red-700'
-                  }`}
+                <Badge
+                  role="status"
+                  className={cn(
+                    'flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border-0',
+                    searchedOrder.status === 'APROVADO' && 'bg-green-100 text-green-700',
+                    searchedOrder.status === 'EM_ANALISE' && 'bg-amber-100 text-amber-700',
+                    searchedOrder.status === 'REPROVADO' && 'bg-red-100 text-red-700'
+                  )}
                 >
                   {searchedOrder.status === 'APROVADO' ? (
                     <CheckCircle className="w-4 h-4" />
+                  ) : searchedOrder.status === 'EM_ANALISE' ? (
+                    <Clock className="w-4 h-4" />
                   ) : (
                     <XCircle className="w-4 h-4" />
                   )}
                   {searchedOrder.status}
-                </div>
+                </Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
